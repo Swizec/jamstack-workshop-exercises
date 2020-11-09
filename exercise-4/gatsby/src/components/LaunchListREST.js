@@ -2,12 +2,12 @@ import React from "react"
 import { useQuery } from "react-query"
 import { Spinner, Text, Link } from "theme-ui"
 
-export const LaunchListREST = () => {
+export const LaunchListREST = ({ limit = 10 }) => {
   const { isLoading, error, data } = useQuery(
-    ["launches-past"],
-    async () => {
+    ["launches-past", limit],
+    async (key, limit) => {
       const res = await fetch(
-        "https://api.spacex.land/rest/launches-past?limit=10"
+        `https://api.spacex.land/rest/launches-past?limit=${limit}`
       )
       return res.json()
     },
