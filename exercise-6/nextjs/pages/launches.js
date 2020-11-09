@@ -1,33 +1,43 @@
 import Head from "next/head";
-import { Container, Heading, Link } from "theme-ui";
+import { Container, Heading, Link, Spinner, Text } from "theme-ui";
+import { dehydrate } from "react-query/hydration";
+import { QueryCache, useQuery } from "react-query";
 
-async function getLaunches(limit) {
+async function getLaunches(key, limit) {
     const res = await fetch(
         `https://api.spacex.land/rest/launches-past?limit=${limit}`
     );
     return res.json();
 }
 
-export async function getStaticProps() {
-    const launches = await getLaunches(10);
+export async function getServerSideProps() {
+    const queryCache = new QueryCache();
+    await queryCache.prefetchQuery(["launches-past", 10], getLaunches);
 
     return {
         props: {
-            launches,
+            dehydratedState: dehydrate(queryCache),
         },
     };
 }
 
-const Launches = ({ launches }) => {
-    return (
-        <Container>
-            <Head>
-                <title>SpaceX Launches</title>
-            </Head>
+const LaunchList = ({ limit = 10 }) => {
+    const { isLoading, error, data } = useQuery(
+        ["launches-past", limit],
+        getLaunches,
+        {
+            staleTime: 5 * 60 * 1000,
+        }
+    );
 
-            <Heading>SpaceX Launches</Heading>
+    if (isLoading) {
+        return <Spinner />;
+    } else if (error) {
+        return <Text>{error.message}</Text>;
+    } else {
+        return (
             <ul>
-                {launches.map((launch) => (
+                {data.map((launch) => (
                     <li>
                         <Link href={launch.links.article_link}>
                             {launch.mission_name}
@@ -36,6 +46,19 @@ const Launches = ({ launches }) => {
                     </li>
                 ))}
             </ul>
+        );
+    }
+};
+
+const Launches = () => {
+    return (
+        <Container>
+            <Head>
+                <title>SpaceX Launches</title>
+            </Head>
+
+            <Heading>SpaceX Launches</Heading>
+            <LaunchList limit={10} />
         </Container>
     );
 };

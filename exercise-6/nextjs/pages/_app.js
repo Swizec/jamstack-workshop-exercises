@@ -1,6 +1,8 @@
 import { ThemeProvider } from "theme-ui";
 import sketchy from "theme-ui-sketchy-preset";
 import Head from "next/head";
+import { QueryCache, ReactQueryCacheProvider } from "react-query";
+import { Hydrate } from "react-query/hydration";
 
 const theme = {
     ...sketchy,
@@ -35,17 +37,23 @@ const theme = {
     },
 };
 
+const queryCache = new QueryCache();
+
 function MyApp({ Component, pageProps }) {
     return (
-        <ThemeProvider theme={theme}>
-            <Head>
-                <link
-                    rel="stylesheet"
-                    href="https://fonts.googleapis.com/css?family=Architects+Daughter"
-                />
-            </Head>
-            <Component {...pageProps} />
-        </ThemeProvider>
+        <ReactQueryCacheProvider queryCache={queryCache}>
+            <Hydrate state={pageProps.dehydratedState}>
+                <ThemeProvider theme={theme}>
+                    <Head>
+                        <link
+                            rel="stylesheet"
+                            href="https://fonts.googleapis.com/css?family=Architects+Daughter"
+                        />
+                    </Head>
+                    <Component {...pageProps} />
+                </ThemeProvider>
+            </Hydrate>
+        </ReactQueryCacheProvider>
     );
 }
 
