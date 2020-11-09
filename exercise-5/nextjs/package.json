@@ -12,6 +12,7 @@
     "next": "10.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-query": "^2.26.2",
     "theme-ui": "^0.3.1",
     "theme-ui-sketchy-preset": "^0.1.3"
   }
