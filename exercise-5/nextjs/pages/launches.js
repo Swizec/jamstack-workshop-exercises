@@ -8,7 +8,7 @@ async function getLaunches(limit) {
     return res.json();
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const launches = await getLaunches(10);
 
     return {
