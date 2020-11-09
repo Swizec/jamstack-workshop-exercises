@@ -13,7 +13,7 @@ const Launches = () => {
       <SEO title="SpaceX Launches" />
       <Heading>SpaceX Launches</Heading>
 
-      <LaunchList />
+      <LaunchList limit={20} />
       {double ? <LaunchList /> : null}
 
       <Heading>Using REST</Heading>
