@@ -16,6 +16,33 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: "gatsby-plugin-mdx",
+      options: {
+        extensions: [".mdx", ".md"],
+        gatsbyRemarkPlugins: [
+          {
+            resolve: "gatsby-remark-images",
+            options: {
+              markdownCaptions: false,
+              maxWidth: 890,
+              linkImagestoOriginal: false,
+              showCaptions: ["title", "alt"],
+              withWebp: true,
+              wrapperStyle: "text-align: center; font-style: italic",
+              tracedSVG: {
+                color: `lightgray`,
+                optTolerance: 0.4,
+                turdSize: 100,
+                turnPolicy: "TURNPOLICY_MAJORITY",
+              },
+              loading: "lazy",
+            },
+          },
+        ],
+        plugins: [{ resolve: "gatsby-remark-images" }],
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `gatsby-starter-default`,
