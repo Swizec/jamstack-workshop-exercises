@@ -19,6 +19,14 @@ module.exports = {
         uri: "https://api.spacex.land/graphql",
       },
     },
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+        typeName: "SPACEX",
+        fieldName: "spacex",
+        url: "https://api.spacex.land/graphql",
+      },
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
