@@ -4,6 +4,7 @@ import { Link } from "gatsby"
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
+import Funstuff from "../components/funstuff"
 
 import { Button, useColorMode } from "theme-ui"
 const modes = ["light", "dark", "deep"]
@@ -30,6 +31,7 @@ const IndexPage = () => {
       <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
       <br />
       <Link to="/my-epic-page">Go to my epic page</Link>
+      <Funstuff />
     </Layout>
   )
 }
